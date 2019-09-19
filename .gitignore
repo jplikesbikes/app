@@ -1,0 +1,16 @@
+# Build Artifacts
+dist/
+
+# Dependencies
+node_modules/
+
+# IDE
+.tmp/
+.DS_Store
+.idea/
+*.sublime-*
+.tern-project
+
+# Optional REPL history
+npm-debug.log
+.node_repl_history
