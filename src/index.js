@@ -1,3 +1,6 @@
 import './index.css';
+import { h, Component, render } from 'preact';
+import { html } from 'htm/preact';
 
-console.log('hello world');
+const app = html`<div>Hello World!</div>`;
+render(app, document.body);
