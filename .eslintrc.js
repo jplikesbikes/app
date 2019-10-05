@@ -5,13 +5,10 @@ module.exports = {
 	plugins: [
 		"@typescript-eslint",
 	],
-	parserOptions: {
-		ecmaFeatures: {
-			experimentalObjectRestSpread: true
-		}
-	},
+	parser: "babel-eslint",
 	rules: {
 		// use tabs only
+		'no-tabs': [0],
 		indent: [2, 'tab', { SwitchCase: 1 }],
 
 		// use one space anywhere we allow space
@@ -79,6 +76,7 @@ module.exports = {
 		'no-loop-func': [0],
 	},
 	env: {
-		mocha: true
+		mocha: true,
+		browser: true,
 	}
 };
