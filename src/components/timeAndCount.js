@@ -3,6 +3,7 @@ import { h, Component } from 'preact'; // eslint-disable-line no-unused-vars
 import { withEffects, toProps } from 'refract-preact-rxjs';
 import { combineLatest, interval } from 'rxjs';
 import { map, startWith, scan } from 'rxjs/operators';
+import produce from 'immer';
 
 // Layout
 export const Hello = ({ name }) => html`<span>Hello ${name}</span>`;
@@ -23,7 +24,7 @@ export class TimeAndCount extends Component {
 	// Only run the timer while the component is on the screen
 	componentDidMount() {
 		this.timer = setInterval(() => {
-			this.setState((state) => ({ ...state, time: Date.now() }));
+			this.setState(produce((draft) => { draft.time = Date.now(); }));
 		}, 1000);
 	}
 
@@ -32,14 +33,13 @@ export class TimeAndCount extends Component {
 		clearInterval(this.timer);
 	}
 
-	increment = () => this.setState((state) => ({ ...state, value: state.value + 1 }))
+	increment = () => this.setState(produce((draft) => { draft.value += 1; }))
 
 	render(props, state) {
-		const newProps = {
-			...state,
-			timeDisplay: new Date(state.time).toLocaleTimeString(),
-			increment: this.increment,
-		};
+		const newProps = produce(state, (draft) => {
+			draft.timeDisplay = new Date(state.time).toLocaleTimeString();
+			draft.increment = this.increment;
+		});
 		return html`<${Layout} ...${newProps} />`;
 	}
 }
