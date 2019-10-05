@@ -3,7 +3,14 @@ import { h, Component, render } from 'preact'; // eslint-disable-line no-unused-
 import { html } from 'htm/preact';
 
 // Functional Component
-const Hello = (props) => html`<span>Hello ${props.name}</span>`;
+const Hello = ({ name }) => html`<span>Hello ${name}</span>`;
+
+const Layout = ({ time, value, increment }) => html`
+	<div>
+		It's now: <span>${time}</span>
+		<div>Count: ${value}</div>
+		<button onClick=${increment}> Increment</button>
+	</div>`;
 
 // Class Component
 class TimeAndCount extends Component {
@@ -30,18 +37,18 @@ class TimeAndCount extends Component {
 
 	render() {
 		let time = new Date(this.state.time).toLocaleTimeString();
-		return html`<div>
-			It's now: <span>${time}</span>
-			<div>Count: ${this.state.value}</div>
-			<button onClick=${this.increment}> Increment</button>
-		</div>`;
+		const state = {
+			...this.state,
+			time,
+			increment: this.increment,
+		};
+		return html`<${Layout} ...${state} />`;
 	}
 }
 
 const app = html`
 	<div>
-		<${Hello} name="JP" />
-		<br/>
+		<h1>Preact <${Hello} name="JP" /></h1>
 		<${TimeAndCount} />
 	</div>`;
 render(app, document.body);

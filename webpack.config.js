@@ -64,7 +64,17 @@ const buildPlugins = [
 	new HtmlWebpackPlugin({
 		title: 'App',
 		chunksSortMode: 'dependency',
-		excludeChunks: [],
+		excludeChunks: ['refract'],
+		meta: {
+			'viewport': 'width=device-width, initial-scale=1',
+			'mobile-web-app-capable': 'yes',
+		},
+	}),
+	new HtmlWebpackPlugin({
+		title: 'App',
+		filename: 'refract.html',
+		chunksSortMode: 'dependency',
+		excludeChunks: ['index'],
 		meta: {
 			'viewport': 'width=device-width, initial-scale=1',
 			'mobile-web-app-capable': 'yes',
@@ -125,6 +135,7 @@ module.exports = ({
 		optimization,
 		entry: {
 			index: './src/index.js',
+			refract: './src/refract.js'
 		},
 		module: {
 			rules: [

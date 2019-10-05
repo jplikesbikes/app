@@ -58,6 +58,8 @@
   "dependencies": {
     "htm": "^2.2.1",
     "preact": "^8.5.2",
-    "preact-compat": "^3.19.0"
+    "preact-compat": "^3.19.0",
+    "refract-preact-rxjs": "^4.2.1",
+    "rxjs": "^6.5.3"
   }
 }
