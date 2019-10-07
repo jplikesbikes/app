@@ -5,7 +5,14 @@ module.exports = {
 	plugins: [
 		"@typescript-eslint",
 	],
-	parser: "babel-eslint",
+	parser: "@typescript-eslint/parser",
+	settings: {
+		"import/resolver": {
+			"node": {
+				"extensions": [".js", ".ts"]
+			}
+		}
+	},
 	rules: {
 		// use tabs only
 		'no-tabs': [0],

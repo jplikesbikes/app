@@ -5,8 +5,10 @@ import { combineLatest, interval } from 'rxjs';
 import { map, startWith, scan } from 'rxjs/operators';
 import produce from 'immer';
 
+import { greeter } from './greet';
+
 // Layout
-export const Hello = ({ name }) => html`<span>Hello ${name}</span>`;
+export const Hello = ({ name }) => html`<span>${greeter(name)}</span>`;
 const Layout = ({ timeDisplay, value, increment }) => html`
 	<div>
 		It's now: <span>${timeDisplay}</span>

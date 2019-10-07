@@ -165,7 +165,7 @@ module.exports = ({
 //				},
 				// js / babel
 				{
-					test: /\.m?js$/,
+					test: /\.m?(js|ts)$/,
 					exclude: /(node_modules)/,
 					use: {
 						loader: 'babel-loader',
@@ -187,6 +187,7 @@ module.exports = ({
 				// Not necessary unless you consume a module requiring `react-dom-factories`
 				'react-dom-factories': 'preact-compat/lib/react-dom-factories',
 			},
+			extensions: [ '.ts', '.js' ],
 		},
 		output: {
 			filename: production ? '[name].[contenthash].bundle.js' : '[name].bundle.js',
