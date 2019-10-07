@@ -4,13 +4,17 @@ import { withEffects, toProps } from 'refract-preact-rxjs';
 import { combineLatest, interval } from 'rxjs';
 import { map, startWith, scan } from 'rxjs/operators';
 import produce from 'immer';
+import css from 'csz';
 
 import { greeter } from './greet';
 
 // Layout
 export const Hello = ({ name }) => html`<span>${greeter(name)}</span>`;
+
+// unique class name from the loaded file
+const layoutClass = css`/components/timeAndCount.scss`;
 const Layout = ({ timeDisplay, value, increment }) => html`
-	<div>
+	<div class="${layoutClass}">
 		It's now: <span>${timeDisplay}</span>
 		<div>Count: ${value}</div>
 		<button onClick=${increment}> Increment</button>

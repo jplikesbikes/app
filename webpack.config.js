@@ -3,7 +3,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 
@@ -45,7 +46,14 @@ const splitChunks = {
 // @see https://webpack.js.org/configuration/optimization/
 const prodOptimization = {
 	minimizer: [
-		new UglifyJsPlugin(),
+		new TerserPlugin({
+			cache: true,
+			parallel: true,
+			sourceMap: true, // Must be set to true if using source-maps in production
+			terserOptions: {
+				// https://github.com/webpack-contrib/terser-webpack-plugin#terseroptions
+			}
+		}),
 		new OptimizeCSSAssetsPlugin({}),
 	],
 };
@@ -56,7 +64,7 @@ const buildPlugins = [
 	// Generate a manifest
 	new HtmlWebpackPlugin({
 		filename: 'webpack-common-manifest.json',
-		template: './manifest.tpl',
+		template: '../manifest.tpl',
 		inject: false,
 	}),
 
@@ -86,6 +94,10 @@ const buildPlugins = [
 		],
 		defaultAttribute: 'async',
 	}),
+	new CopyWebpackPlugin([
+		{ from: '**/*.scss' },
+		{ from: '**/*.css' },
+	])
 ];
 
 const devPlugins = [
@@ -133,9 +145,10 @@ module.exports = ({
 		mode,
 		plugins,
 		optimization,
+		context: path.resolve(__dirname, 'src'),
 		entry: {
-			index: './src/index.js',
-			refract: './src/refract.js'
+			index: './index.js',
+			refract: './refract.js'
 		},
 		module: {
 			rules: [
@@ -197,7 +210,6 @@ module.exports = ({
 		// Development settings
 		devServer: {
 			publicPath: '/',
-			contentBase: './src',
 			hot: true,
 			// This is configured to allow client side cors request to some other server
 			// @see: https://webpack.js.org/configuration/dev-server/#devserver-proxy

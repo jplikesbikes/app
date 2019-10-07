@@ -13,7 +13,8 @@
 		"@babel/proposal-class-properties",
 		"@babel/proposal-object-rest-spread",
 		["babel-plugin-htm", {
-			"useBuiltIns": true
+			"useBuiltIns": true,
+			"useNativeSpread": true
 		}]
 	]
 }

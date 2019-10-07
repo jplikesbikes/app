@@ -1,4 +1,4 @@
-body {
-	color: #555;
+:global(body) {
+	color: green;
 	margin: 0 1em;
 }
