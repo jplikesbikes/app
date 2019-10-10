@@ -61,8 +61,7 @@
     "csz": "^1.1.1",
     "htm": "^2.2.1",
     "immer": "^4.0.1",
-    "preact": "^8.5.2",
-    "preact-compat": "^3.19.0",
+    "preact": "^10.0.0-rc.3",
     "refract-preact-rxjs": "^4.2.1",
     "rxjs": "^6.5.3"
   },
