@@ -1,7 +1,9 @@
 import css from 'csz';
 import { h, render } from 'preact'; // eslint-disable-line no-unused-vars
 import { html } from 'htm/preact';
-import { Hello, TimeAndCount, TimeAndCountWithEffects, TimeAndCountHooks, TimeAndCountInternalHooks } from './components/timeAndCount';
+import {
+	Hello, TimeAndCount, TimeAndCountWithEffects, TimeAndCountHooks, TimeAndCountInternalHooks,
+} from './components/timeAndCount';
 
 // load css must be absolute path
 const appClass = css`/index.css`;

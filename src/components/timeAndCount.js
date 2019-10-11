@@ -53,7 +53,7 @@ export class TimeAndCount extends Component {
 
 // Refract component
 const aperture = (component, initialProps) => {
-	const initialCount = initialProps.initialCount;
+	const { initialCount } = initialProps;
 	const [increment$, increment] = component.useEvent('increment');
 	const count$ = increment$.pipe(
 		scan((count) => count + 1, initialCount),
@@ -79,51 +79,51 @@ export const TimeAndCountWithEffects = withEffects(aperture, { handler })(Layout
 
 // Functional Component with hooks broken out
 const useClock = () => {
-	const [time, setTime] = useState(new Date())
+	const [time, setTime] = useState(new Date());
 
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setTime(new Date());
 		}, 1000);
 
-  		return () => clearInterval(timer);
+		return () => clearInterval(timer);
 	}, []);
 
-	return time
-}
+	return time;
+};
 export const TimeAndCountHooks = (props) => {
 	const time = useClock();
-	const [count, setCount] = useState(props.initialCount)
-	const increment = () => setCount(c => c + 1)
+	const [count, setCount] = useState(props.initialCount);
+	const increment = () => setCount((c) => c + 1);
 	const uiState = {
 		timeDisplay: new Date(time).toLocaleTimeString(),
 		value: count,
-		increment
+		increment,
 	};
-	return html`<${Layout} ...${uiState} />`
-}
+	return html`<${Layout} ...${uiState} />`;
+};
 
-// Functional Component with hooks broken out
+// Functional Component with hooks
 export const TimeAndCountInternalHooks = (props) => {
-	const [time, setTime] = useState(new Date())
+	const [time, setTime] = useState(new Date());
 
 	useEffect(() => {
 		const timer = setInterval(() => {
 			setTime(new Date());
 		}, 1000);
 
-  		return () => {
-			console.log('destroy')
-    		clearInterval(timer);
-  		};
+		return () => {
+			console.log('destroy');
+			clearInterval(timer);
+		};
 	}, []);
 
-	const [count, setCount] = useState(props.initialCount)
-	const increment = () => setCount(c => c + 1)
+	const [count, setCount] = useState(props.initialCount);
+	const increment = () => setCount((c) => c + 1);
 	const uiState = {
 		timeDisplay: new Date(time).toLocaleTimeString(),
 		value: count,
-		increment
+		increment,
 	};
-	return html`<${Layout} ...${uiState} />`
-}
+	return html`<${Layout} ...${uiState} />`;
+};

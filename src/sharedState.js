@@ -1,14 +1,13 @@
 import css from 'csz';
 import { h, render } from 'preact'; // eslint-disable-line no-unused-vars
 import { html } from 'htm/preact';
-import browserPlugin from 'router5-plugin-browser'
 
-import { router } from './services/routing';
+import router from './services/routing';
 
 
 // add in this page
 router.add({ name: 'home', path: '/asd' });
-router.navigate('home')
+router.navigate('home');
 
 
 // load css must be absolute path
