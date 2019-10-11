@@ -62,7 +62,10 @@
     "htm": "^2.2.1",
     "immer": "^4.0.1",
     "preact": "^10.0.0-rc.3",
+    "redux": "^4.0.4",
     "refract-preact-rxjs": "^4.2.1",
+    "router5": "^7.0.2",
+    "router5-plugin-browser": "^7.0.2",
     "rxjs": "^6.5.3"
   },
   "sideEffects": [
