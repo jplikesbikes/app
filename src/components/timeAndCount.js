@@ -30,6 +30,7 @@ export const TimeAndCountInternalHooks = (props) => {
 		// You can also read the current value of props in here
 		// If you only want to listen to props put them in the array (not tested)
 	}, []); // effects run on mount and when the contents of the array change. so in this case only start
+	// Remove the array and it runs on mount and all updates
 
 	// ------- Redux / Global State
 	// Grab user sate from redux, can use a reselect selector here if we want
