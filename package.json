@@ -6,8 +6,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "typecheck": "npx tsc",
-    "lint": "npx eslint --fix src/",
+    "typechecker": "npx tsc",
+    "linter": "npx eslint --fix src/",
     "build": "webpack --env.production",
     "start": "webpack-dev-server --progress"
   },
