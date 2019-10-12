@@ -1,7 +1,5 @@
 # app
 
-Install `lit-plugin` for vscode to get highlighting and checking of ` html` blocks
-
 
 ## React gotchas
 + Props are readonly and only set by the parent component on the child (doc)[https://reactjs.org/docs/components-and-props.html#props-are-read-only]
