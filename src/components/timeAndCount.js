@@ -1,38 +1,14 @@
 import { html } from 'htm/preact';
 import { useState, useEffect } from 'preact/hooks';
-import css from 'csz';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { greeter } from './greet';
 import { login, logout } from '../services/state';
 import { getSomeData } from '../services/api';
+import { Layout } from './layout';
 
-// Layout
-export const Hello = ({ name }) => html`<span>${greeter(name)}</span>`;
-
-// unique class name from the loaded file
-const layoutClass = css`/components/timeAndCount.scss`;
-export const Layout = ({
-	timeDisplay, value, increment,
-	user, doLogin, doLogout, data, getData,
-}) => html`
-	<div class="${layoutClass}">
-		${
-	user
-		? html`<div><button onClick=${doLogout}> Logout.</button> Hello, ${user.name}!</div>`
-		: html`<div><button onClick=${doLogin}>Login.</button></div>`
-}
-		It's now: <span>${timeDisplay}</span>
-		<div>Count: ${value}</div>
-		<button onClick=${increment}>Increment</button>
-		<button onClick=${getData}>Get Date</button>
-		<ul>
-			${data.map((d) => html`<li>${d}</li>`)}
-		</ul>
-	</div>`;
 
 // For some better login example
-const names = ['jp', 'dante', 'dan', 'phil', 'sanjay'];
+export const names = ['jp', 'dante', 'dan', 'phil', 'sanjay'];
 
 // Functional Component with hooks
 export const TimeAndCountInternalHooks = (props) => {

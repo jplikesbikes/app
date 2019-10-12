@@ -1,7 +1,8 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { refractEnhancer } from 'refract-redux-rxjs';
 
 const initialState = {
-	user: undefined,
+	user: { name: 'dante' },
 };
 
 export const logout = () => ({ type: 'LOGOUT' });
@@ -18,10 +19,17 @@ export const reducer = (state, action) => {
 	}
 };
 
-export const store = createStore(reducer, initialState, applyMiddleware(
+const middlewareEnhancer = applyMiddleware(
 	// @todo: persistence
 	() => (next) => (action) => {
 		console.debug('MIDDLEWARE!', { action }); // eslint-disable-line no-console
 		return next(action);
 	},
-));
+);
+
+const composedEnhancers = compose(
+	middlewareEnhancer,
+	refractEnhancer(),
+);
+
+export const store = createStore(reducer, initialState, composedEnhancers);
