@@ -1,63 +1,35 @@
 import { html } from 'htm/preact';
-// N.B. babel preproceses html tag => h() calls during build
-import { h } from 'preact'; // eslint-disable-line no-unused-vars
 import { useState, useEffect } from 'preact/hooks';
-import { withEffects, toProps } from 'refract-preact-rxjs';
-import { combineLatest, interval } from 'rxjs';
-import { map, startWith, scan } from 'rxjs/operators';
 import css from 'csz';
-
 import { useDispatch, useSelector } from 'react-redux';
+
 import { greeter } from './greet';
 import { login, logout } from '../services/state';
+import { getSomeData } from '../services/api';
 
 // Layout
 export const Hello = ({ name }) => html`<span>${greeter(name)}</span>`;
 
 // unique class name from the loaded file
 const layoutClass = css`/components/timeAndCount.scss`;
-const Layout = ({
-	timeDisplay, value, increment, setInitialCount,
-	user, doLogin, doLogout,
+export const Layout = ({
+	timeDisplay, value, increment,
+	user, doLogin, doLogout, data, getData,
 }) => html`
 	<div class="${layoutClass}">
 		${
 	user
-		? html`<div>Hello, ${user.name}! <button onClick=${doLogout}> Logout.</button></div>`
-		: html`<button onClick=${doLogin}>Login.</button>`
+		? html`<div><button onClick=${doLogout}> Logout.</button> Hello, ${user.name}!</div>`
+		: html`<div><button onClick=${doLogin}>Login.</button></div>`
 }
 		It's now: <span>${timeDisplay}</span>
 		<div>Count: ${value}</div>
-		<button onClick=${increment}> Increment</button>
-		${setInitialCount && html`<button onClick=${setInitialCount}>Set Initial to 5</button>`}
+		<button onClick=${increment}>Increment</button>
+		<button onClick=${getData}>Get Date</button>
+		<ul>
+			${data.map((d) => html`<li>${d}</li>`)}
+		</ul>
 	</div>`;
-
-// Refract component
-const aperture = (component, initialProps) => {
-	const { initialCount } = initialProps;
-	const [increment$, increment] = component.useEvent('increment');
-	const count$ = increment$.pipe(
-		scan((count) => count + 1, initialCount),
-		startWith(initialCount)
-	);
-
-	const time$ = interval(1000).pipe(
-		map(() => Date.now()),
-		startWith(Date.now())
-	);
-
-	return combineLatest(time$, count$).pipe(
-		map(([time, count]) => toProps({
-			timeDisplay: new Date(time).toLocaleTimeString(),
-			value: count,
-			increment,
-		}))
-	);
-};
-// eslint-disable-next-line no-unused-vars
-const handler = (initialProps) => (effect) => {};
-export const TimeAndCountWithEffects = withEffects(aperture, { handler })(Layout);
-
 
 // For some better login example
 const names = ['jp', 'dante', 'dan', 'phil', 'sanjay'];
@@ -67,30 +39,36 @@ export const TimeAndCountInternalHooks = (props) => {
 	// Local State hooks
 	const [time, setTime] = useState(new Date());
 	const [count, setCount] = useState(props.initialCount);
+	const [data, setData] = useState([]);
 
 	// Change local state
 	const increment = () => setCount((c) => c + 1);
 
 	// An "external" effect that changes local state
 	useEffect(() => {
-		const timer = setInterval(() => {
-			setTime(new Date());
-		}, 1000);
+		const timer = setInterval(() => setTime(new Date()), 1000);
 
-		// on destroy
-		return () => {
-			clearInterval(timer);
-		};
-	}, []);
+		// on unmount of the component run this function
+		return () => clearInterval(timer);
+
+		// You can also read the current value of props in here
+		// If you only want to listen to props put them in the array (not tested)
+	}, []); // effects run on mount and when the contents of the array change. so in this case only start
 
 	// ------- Redux / Global State
-	// Grab user sate fromredux
+	// Grab user sate from redux, can use a reselect selector here if we want
 	const user = useSelector((state) => state.user);
 
-	// Bind login/logout disaptch actions
+	// Bind login/logout redux disaptch actions
 	const dispatch = useDispatch();
 	const doLogin = () => dispatch(login({ name: names[Math.floor(Math.random() * names.length)] }));
 	const doLogout = () => dispatch(logout());
+
+	// an action that calls an async service
+	const getData = () => getSomeData(count).then((result) => {
+		// we are setting local state here but we could set global state instead by calling a redux method
+		setData(result);
+	});
 
 	// Props object for display
 	const uiState = {
@@ -98,6 +76,9 @@ export const TimeAndCountInternalHooks = (props) => {
 		timeDisplay: new Date(time).toLocaleTimeString(),
 		value: count,
 		increment,
+		// Local Async
+		data,
+		getData,
 		// Global-derived
 		user,
 		doLogin,

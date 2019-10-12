@@ -1,9 +1,7 @@
 import { createStore, applyMiddleware } from 'redux';
 
 const initialState = {
-	user: {
-		name: 'dante',
-	},
+	user: undefined,
 };
 
 export const logout = () => ({ type: 'LOGOUT' });
@@ -23,7 +21,7 @@ export const reducer = (state, action) => {
 export const store = createStore(reducer, initialState, applyMiddleware(
 	// @todo: persistence
 	() => (next) => (action) => {
-		console.debug('MIDDLEWARE!', { action });
+		console.debug('MIDDLEWARE!', { action }); // eslint-disable-line no-console
 		return next(action);
 	},
 ));
