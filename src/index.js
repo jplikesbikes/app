@@ -2,7 +2,7 @@ import css from 'csz';
 // N.B. babel preproceses html tag => h() calls during build
 import { h, render } from 'preact'; // eslint-disable-line no-unused-vars
 import { html } from 'htm/preact';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { RouterProvider, useRoute } from 'react-router5';
 
 import { Hello } from './components/layout';
@@ -33,11 +33,16 @@ const ShowRoute = ({ routeName, children }) => {
 	return view;
 };
 
+const HelloUser = () => {
+	const name = useSelector((state) => (state.user && state.user.name) || 'world');
+	return html`<${Hello} name=${name}/>`;
+};
+
 const app = html`
 	<${Provider} store='${store}'>
 		<${RouterProvider} router=${router}>
 			<div class='${appClass}'>
-				<h1><${Hello} name="JP" /></h1>
+				<h1><${HelloUser} /></h1>
 				<${Nav}/>
 				<${ShowRoute} routeName='hooks'>
 					<h2>Internal Hooks & Global State</h2>
