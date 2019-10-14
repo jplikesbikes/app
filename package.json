@@ -63,6 +63,7 @@
     "immer": "^4.0.1",
     "preact": "^10.0.0-rc.3",
     "react-redux": "^7.1.1",
+    "react-router5": "^7.1.0",
     "redux": "^4.0.4",
     "refract-redux-rxjs": "^1.4.1",
     "refract-rxjs": "^4.2.3",

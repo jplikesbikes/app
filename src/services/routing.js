@@ -21,7 +21,6 @@ const router = createRouter([{ name: 'err', path: '/err' }], routerOptions);
 router.usePlugin(
 	browserPlugin({
 		useHash: true,
-		base: '/sharedState',
 	})
 );
 router.start();
